@@ -1,0 +1,260 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf610
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 -- Lab 2.05\
+-- Select all the actors with the first name \'91Scarlett\'92.\
+select * \
+from sakila.actor\
+where first_name = 'Scarlett';\
+\
+-- How many films (movies) are available for rent and how many films have been rented?\
+select count(distinct film_id)\
+from sakila.film;\
+ \
+\
+-- What are the shortest and longest movie duration? Name the values max_duration and min_duration.\
+select min(length) as min_duration,  max(length) as max_duration\
+from sakila.film;\
+\
+-- What's the average movie duration expressed in format (hours, minutes)? \
+select floor(avg(length) / 60) as hours, round(avg(length) % 60) as minutes\
+from sakila.film;\
+\
+-- How many distinct (different) actors' last names are there?\
+select count(distinct last_name) from sakila.actor;\
+\
+-- Since how many days has the company been operating (check DATEDIFF() function)?\
+select datediff(max(rental_date), min(rental_date)) as 'days_since_opening'\
+from sakila.rental;\
+\
+-- Show rental info with additional columns month and weekday. Get 20 results.\
+select *, date_format(rental_date, "%M") as 'month', date_format(rental_date, "%W") as 'day'\
+from sakila.rental\
+limit 20; \
+\
+-- Add an additional column day_type with values 'weekend' and 'workday' depending on the rental day of the week.\
+select *,\
+case when date_format(rental_date, '%W') in ('Saturday', 'Sunday')\
+then 'weekend'\
+else 'workday' \
+end as 'day_type'\
+from sakila.rental;\
+\
+-- How many rentals were in the last month of activity?\
+select max(rental_date)\
+from sakila.rental; \
+\
+select count(*)\
+from sakila.rental\
+where rental_date > '2006-02-01';\
+\
+-- lab 2.06\
+-- Get release years.\
+select release_year from sakila.film;\
+\
+-- Get all films with ARMAGEDDON in the title.\
+select * from sakila.film\
+where title like '%armageddon%';\
+\
+-- Get all films which title ends with APOLLO.\
+select * from sakila.film\
+where title like '%apollo';\
+\
+-- Get 10 the longest films.\
+select title, length from sakila.`film`\
+order by length DESC\
+limit 10;\
+\
+-- How many films include Behind the Scenes content?\
+\
+select count(title) from sakila.film\
+where special_features like '%behind the scenes%';\
+\
+\
+-- Drop column picture from staff.\
+alter table sakila.staff\
+drop column picture;\
+\
+-- A new person is hired to help Jon. Her name is TAMMY SANDERS, and she is a customer. Update the database accordingly.\
+\
+select * from sakila.`customer`\
+where `first_name` like 'Tammy' and `last_name` like 'Sanders';\
+\
+insert into sakila.staff (first_name, last_name, address_id, email, store_id, active, username) values ('TAMMY','SANDERS', 79, 'TAMMY.SANDERS@sakilacustomer.org', 2, 1, 'Tammy');\
+\
+select * from sakila.staff;\
+\
+-- Add rental for movie "Academy Dinosaur" by Charlotte Hunter from Mike Hillyer at Store 1. You can use current date for the rental_date column in the rental table.:\
+select customer_id from sakila.customer\
+where first_name = 'CHARLOTTE' and last_name = 'HUNTER';\
+\
+select film_id from sakila.film\
+where title = 'Academy Dinosaur';\
+\
+select inventory_id from sakila.inventory\
+where film_id = 1 and store_id = 1; \
+\
+select staff_id from sakila.staff\
+where first_name = 'Mike' and last_name = 'Hillyer';\
+\
+insert into sakila.rental (rental_date, inventory_id, customer_id, staff_id)\
+values (CURRENT_DATE, 1, 130, 1);\
+\
+select max(rental_date)\
+from rental;\
+\
+-- Lab 2.7\
+--  import film info\
+load data local infile '/Users/pollyjenkinson/dataV3_Lesson_2.7_lab/files_for_part1./films_2020.csv' -- provide the complete path of the file\
+into table films_2020\
+fields terminated BY ',';\
+\
+-- In the table actor, which are the actors whose last names are not repeated? \
+select last_name from sakila.actor\
+group by last_name\
+having count(*) = 1;\
+\
+-- Which last names appear more than once? We would use the same logic as in the previous question but this time we want to include the last names of the actors where the last name was present more than once\
+select last_name from sakila.actor\
+group by last_name\
+having count(*) > 1;\
+\
+-- Using the rental table, find out how many rentals were processed by each employee.\
+select count(inventory_id), `staff_id`\
+from sakila.rental\
+group by `staff_id`;\
+\
+-- Using the film table, find out how many films were released each year.\
+select count(title), release_year\
+from sakila.film\
+group by `release_year`;\
+\
+select distinct(release_year)\
+from sakila.film;\
+\
+-- Using the film table, find out for each rating how many films were there.\
+select rating, count(film_id) \
+from sakila.film\
+group by rating \
+order by count(film_id);\
+\
+-- What is the mean length of the film for each rating type. Round off the average lengths to two decimal places\
+select rating, round(avg(length), 2) as average_length\
+from sakila.film\
+group by rating;\
+\
+-- Which kind of movies (rating) have a mean duration of more than two hours?\
+select rating, round(avg(length), 2) as average_length\
+from sakila.film\
+group by rating\
+having average_length > 120;\
+\
+\
+-- Lab SQL 8\
+-- Rank films by length (filter out the rows that have nulls or 0s in length column). In your output, only select the columns title, length, and the rank.  \
+select  title, length, rank() over (order by length desc) as "Rank" \
+from sakila.film\
+where length is not null;\
+-- Rank films by length within the rating category (filter out the rows that have nulls or 0s in length column). In your output, only select the columns title, length, rating and the rank.\
+select title, length, rating, rank() over(partition by rating order by length desc)\
+from sakila.film\
+where length is not null;\
+\
+-- How many films are there for each of the categories in the category table. Use appropriate join to write this query\
+select count(*), fc.category_id \
+from sakila.film_category as fc\
+left join sakila.film as f\
+on fc.film_id = f.film_id\
+group by fc.category_id\
+order by category_id;\
+  \
+\
+\
+-- Which actor has appeared in the most films?\
+\
+select actor.actor_id, actor.first_name, actor.last_name,\
+count(actor_id) as film_count\
+from sakila.actor join sakila.film_actor using (actor_id)\
+group by actor_id\
+order by film_count desc\
+limit 1;\
+\
+-- Most active customer (the customer that has rented the most number of films);\
+\
+select customer.*,\
+count(rental_id) as rental_count\
+from sakila.customer join sakila.rental using (customer_id)\
+group by customer_id\
+order by rental_count desc\
+limit 1;\
+\
+-- most rented film\
+\
+select film.title, film.film_id, count(rental_id) as rental_count\
+from sakila.film \
+inner join sakila.inventory using (film_id) \
+inner join sakila.rental using (inventory_id) \
+group by film_id\
+order by rental_count DESC\
+limit 1;\
+\
+\
+-- Create a table rentals_may to store the data from rental table with information for the month of May.\
+drop table if exists rentals_may;\
+CREATE TABLE rentals_may (\
+   rental_id int NOT NULL AUTO_INCREMENT,\
+   rental_date datetime NOT NULL,\
+  inventory_id mediumint unsigned NOT NULL,\
+  customer_id smallint unsigned NOT NULL,\
+  return_date datetime DEFAULT NULL,\
+  staff_id tinyint unsigned NOT NULL,\
+  last_update timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\
+\
+   PRIMARY KEY (rental_id)\
+);\
+-- Insert values in the table rentals_may using the table rental, filtering values only for the month of May.\
+\
+insert into rentals_may\
+select rental_id, rental_date, inventory_id, customer_id, return_date, staff_id, last_update\
+from sakila.rental\
+where rental_date between '2005-05-01' and '2005-05-31';\
+\
+select * from rentals_may;\
+-- Create a table rentals_june to store the data from rental table with information for the month of June.\
+drop table if exists rentals_june;\
+CREATE TABLE rentals_june (\
+   rental_id int NOT NULL AUTO_INCREMENT,\
+   rental_date datetime NOT NULL,\
+  inventory_id mediumint unsigned NOT NULL,\
+  customer_id smallint unsigned NOT NULL,\
+  return_date datetime DEFAULT NULL,\
+  staff_id tinyint unsigned NOT NULL,\
+  last_update timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\
+\
+   PRIMARY KEY (rental_id)\
+);\
+-- Insert values in the table rentals_june using the table rental, filtering values only for the month of June.\
+insert into rentals_june\
+select rental_id, rental_date, inventory_id, customer_id, return_date, staff_id, last_update\
+from sakila.rental\
+where rental_date between '2005-06-01' and '2005-06-30';\
+\
+select * from rentals_june;\
+\
+-- Check the number of rentals for each customer for May.\
+select customer_id, count(*) as 'number_of_rentals'\
+from rentals_may\
+group by customer_id\
+order by count(*)desc;\
+\
+-- Check the number of rentals for each customer for June.\
+select customer_id, count(*) as 'number_of_rentals'\
+from rentals_june\
+group by customer_id\
+order by count(*)desc;\
+\
+}
