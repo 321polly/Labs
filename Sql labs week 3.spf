@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ContentFilters</key>
+	<dict/>
+	<key>auto_connect</key>
+	<true/>
+	<key>data</key>
+	<dict>
+		<key>connection</key>
+		<dict>
+			<key>database</key>
+			<string>sakila</string>
+			<key>host</key>
+			<string>127.0.0.1</string>
+			<key>kcid</key>
+			<string>-1003282821645127051</string>
+			<key>name</key>
+			<string>localhost</string>
+			<key>rdbms_type</key>
+			<string>mysql</string>
+			<key>sslCACertFileLocation</key>
+			<string></string>
+			<key>sslCACertFileLocationEnabled</key>
+			<integer>0</integer>
+			<key>sslCertificateFileLocation</key>
+			<string></string>
+			<key>sslCertificateFileLocationEnabled</key>
+			<integer>0</integer>
+			<key>sslKeyFileLocation</key>
+			<string></string>
+			<key>sslKeyFileLocationEnabled</key>
+			<integer>0</integer>
+			<key>type</key>
+			<string>SPTCPIPConnection</string>
+			<key>useSSL</key>
+			<integer>0</integer>
+			<key>user</key>
+			<string>root</string>
+		</dict>
+		<key>session</key>
+		<dict>
+			<key>connectionEncoding</key>
+			<string>utf8mb4</string>
+			<key>contentFilterV2</key>
+			<dict>
+				<key>children</key>
+				<array/>
+				<key>filterClass</key>
+				<string>groupNode</string>
+				<key>isConjunction</key>
+				<true/>
+			</dict>
+			<key>contentPageNumber</key>
+			<integer>1</integer>
+			<key>contentSelection</key>
+			<data>
+			YnBsaXN0MDDUAQIDBAUGNjdYJHZlcnNpb25YJG9iamVjdHNZJGFy
+			Y2hpdmVyVCR0b3ASAAGGoK0HCBUWFxgZHSQoLDA0VSRudWxs0wkK
+			CwwQFFdOUy5rZXlzWk5TLm9iamVjdHNWJGNsYXNzow0OD4ACgAOA
+			BKMREhOABYAGgAiADFR0eXBlVHJvd3NUa2V5c18QJlNlbGVjdGlv
+			bkRldGFpbFR5cGVQcmltYXJ5S2V5ZWREZXRhaWxz0wkKCxobHKCg
+			gAfSHh8gIVokY2xhc3NuYW1lWCRjbGFzc2VzXxATTlNNdXRhYmxl
+			RGljdGlvbmFyeaMgIiNcTlNEaWN0aW9uYXJ5WE5TT2JqZWN00goL
+			JSehJoAJgAvSCykqK1lOUy5zdHJpbmeAClpwYXltZW50X2lk0h4f
+			LS5fEA9OU011dGFibGVTdHJpbmejLS8jWE5TU3RyaW5n0h4fMTJe
+			TlNNdXRhYmxlQXJyYXmjMTMjV05TQXJyYXnSHh8iNaIiI18QD05T
+			S2V5ZWRBcmNoaXZlctE4OVRkYXRhgAEACAARABoAIwAtADIANwBF
+			AEsAUgBaAGUAbABwAHIAdAB2AHoAfAB+AIAAggCHAIwAkQC6AMEA
+			wgDDAMUAygDVAN4A9AD4AQUBDgETARUBFwEZAR4BKAEqATUBOgFM
+			AVABWQFeAW0BcQF5AX4BgQGTAZYBmwAAAAAAAAIBAAAAAAAAADoA
+			AAAAAAAAAAAAAAAAAAGd
+			</data>
+			<key>contentSortColIsAsc</key>
+			<true/>
+			<key>contentViewport</key>
+			<string>{{6, 0}, {572, 474}}</string>
+			<key>isToolbarVisible</key>
+			<true/>
+			<key>table</key>
+			<string>payment</string>
+			<key>view</key>
+			<string>SP_VIEW_CUSTOMQUERY</string>
+			<key>windowVerticalDividerPosition</key>
+			<real>214</real>
+		</dict>
+	</dict>
+	<key>encrypted</key>
+	<false/>
+	<key>format</key>
+	<string>connection</string>
+	<key>queryFavorites</key>
+	<array/>
+	<key>queryHistory</key>
+	<array>
+		<string>select c.first_name, c.last_name, sum(amount)
+from sakila.customer c
+join sakila.payment pay
+on c.customer_id = pay.customer_id
+group by c.first_name, c.last_name
+order by c.last_name</string>
+		<string>-- Using the tables payment and customer and the JOIN command, list the total paid by each customer. List the customers alphabetically by last name.
+select *
+from sakila.customer c
+join sakila.payment pay
+on c.customer_id = pay.customer_id</string>
+		<string>select f.title, count(fa.actor_id) as number_of_actors
+from sakila.film f
+join sakila.film_actor fa
+on f.film_id = fa.film_id
+join sakila.actor a
+on fa.actor_id = a.actor_id
+group by fa.film_id
+order by number_of_actors</string>
+		<string>select f.title, count(fa.actor_id) as number_of_actors
+from sakila.film f
+join sakila.film_actor fa
+on f.film_id = fa.film_id
+join sakila.actor a
+on fa.actor_id = a.actor_id
+group by fa.film_id</string>
+		<string>select f.title, fa.film_id, count(fa.actor_id) as number_of_actors
+from sakila.film f
+join sakila.film_actor fa
+on f.film_id = fa.film_id
+join sakila.actor a
+on fa.actor_id = a.actor_id
+group by fa.film_id</string>
+		<string>-- List each film and the number of actors who are listed for that film.
+
+select * 
+from sakila.film f
+join sakila.film_actor fa
+on f.film_id = fa.film_id
+join sakila.actor a
+on fa.actor_id = a.actor_id</string>
+		<string>-- List each film and the number of actors who are listed for that film.
+select f.title, sum(fa.actor_id), a.first_name, a.last_name
+from sakila.film f
+join sakila.film_actor fa
+on f.film_id = fa.film_id
+join sakila.actor a
+on fa.actor_id = a.actor_id</string>
+		<string>-- Display the total amount rung up by each staff member in August of 2005.
+select s.staff_id, s.first_name, s.last_name, sum(p.amount) as amount_rung_up
+from sakila.staff s
+join sakila.payment p
+on s.staff_id = p.staff_id
+where p.payment_date between '2005-08-01' and '2005-08-31'
+group by s.staff_id</string>
+		<string>-- Display the total amount rung up by each staff member in August of 2005.
+select s.staff_id, s.first_name, s.last_name, sum(p.amount) as amount_rung_up
+from sakila.staff s
+join sakila.payment p
+on s.staff_id = p.staff_id
+-- where p.payment_date between '2005-08-01' and '2005-08-31'
+group by s.staff_id</string>
+		<string>-- Display the first and last names, as well as the address, of each staff member
+select s.first_name, s.last_name, a.address
+from sakila.staff s
+join sakila.address a 
+on s.address_id = a.address_id</string>
+		<string>select count(fc.film_id) as number_of_films, cat.name 
+from sakila.film_category as fc
+left join sakila.category as cat
+on fc.category_id = cat.category_id
+group by cat.name 
+order by number_of_films desc</string>
+		<string>select count(fc.film_id) as number_of_films, cat.name 
+from sakila.film_category as fc
+left join sakila.category as cat
+on fc.category_id = cat.category_id
+group by cat.name 
+order by number_of:films_2020 desc</string>
+		<string>select count(fc.film_id), cat.name 
+from sakila.film_category as fc
+left join sakila.category as cat
+on fc.category_id = cat.category_id
+group by cat.name 
+order by cat.name desc</string>
+		<string>select count(fc.film_id), cat.name 
+from sakila.film_category as fc
+left join sakila.category as cat
+on fc.category_id = cat.category_id
+group by cat.name desc</string>
+		<string>select count(fc.film_id), cat.name 
+from sakila.film_category as fc
+left join sakila.category as cat
+on fc.category_id = cat.category_id
+group by cat.name</string>
+		<string>select count(fc.film_id), cat.name 
+from sakila.film_category as fc
+left join sakila.category as cat
+on fc.category_id = cat.category_id</string>
+		<string>-- List number of films per category.
+select * 
+from sakila.film_category as fc
+left join sakila.category as cat
+on fc.category_id = cat.category_id</string>
+		<string>-- List number of films per category.
+select * 
+from sakila.film_category as fc
+left join sakila.category as cat
+on fc.category_id = f.category_id</string>
+		<string>-- List number of films per category.
+select * 
+from sakila.film_category as fc
+left join sakila.film as f
+on fc.film_id = f.film_id
+group by fc.category_id
+order by category_id</string>
+		<string>select count(*), fc.category_id 
+from sakila.film as f 
+left join sakila.film_category as fc
+left join sakila.category c
+on f.film_id = fc.film_id
+on fc.name = c.name
+group by fc.category_id
+order by category_id</string>
+	</array>
+	<key>rdbms_type</key>
+	<string>mysql</string>
+	<key>rdbms_version</key>
+	<string>8.0.22</string>
+	<key>version</key>
+	<integer>1</integer>
+</dict>
+</plist>
