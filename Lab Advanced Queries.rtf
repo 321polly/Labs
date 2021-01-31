@@ -1,0 +1,35 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1671\cocoasubrtf600
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 use sakila;\
+\
+-- List each pair of actors that have worked together.\
+\
+select fa1.film_id, concat(a1.first_name, ' ', a1.last_name), concat(a2.first_name, ' ', a2.last_name)\
+from sakila.actor a1\
+inner join film_actor fa1 on a1.actor_id = fa1.actor_id\
+inner join film_actor fa2 on (fa1.film_id = fa2.film_id) and (fa1.actor_id != fa2.actor_id)\
+inner join actor a2 on a2.actor_id = fa2.actor_id;\
+\
+\
+\
+-- For each film, list actor that has acted in more films.\
+\
+\
+select f.title, concat(a.first_name, ' ', a.last_name) as best_actor\
+from (\
+  select film_id, actor_id, rank() over (\
+    partition by film_id\
+    order by num_films\
+    desc\
+  ) as m\
+from film_actor\
+inner join actor_movies\
+using (actor_id)) t\
+inner join actor a on t.actor_id = a.actor_id\
+inner join film f on t.film_id = f.film_id\
+where m = 1;}
